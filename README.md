@@ -42,6 +42,7 @@ reverse함수는 리스트의 순서를 뒤바꿈
 
 unwords함수는 words함수의 반대로 작동
 
+(unwords.reverse.words) input -> words함수에 input 전달 -> words함수 리턴값을 reverse함수에 전달 -> reverse함수의 리턴값을 unwords에 전달
 
 
 #### 다형성
