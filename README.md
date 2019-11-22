@@ -5,8 +5,6 @@ SangYeoop/HaskellStudy
 
 
 
-
-
 ## Haskell?
 
 함수형 프로그래밍 언어 -> 여기서 말하는 함수는 C, C++, Java말하는 함수, 메서드와는 다른 수학적인 함수를 말하는것 같음.
@@ -85,14 +83,124 @@ reverse :: [Char] -> [Char]
 
 
 
-
-
-#### 타입
-
+### Haskell Main 함수 do 액션
 
 
 
+```haskell
+main = do
+	putStrLn "Please enter your name"
+	name <- getLine
+	putStrLn ("Hello, " ++ name ++ ", how are you?")
+```
 
- 
 
- 
+
+```haskell
+putStrLn :: String -> IO()
+getLine :: IO String
+```
+
+putStrLn은 String을 입력받고 IO()를 리턴함.
+
+getLine은 IO액션이고, 실행되면 String을 하나 반환함.
+
+<- 은 액션의 결과값을 얻어올때 용이한 문법임. 각 액션의 결과를 변수에 넣는것이 가능(마지막은 X)
+
+```haskell
+doGuessing num = do
+   putStrLn "Enter your guess:"
+   guess <- getLine
+   if (read guess) < num
+     then do putStrLn "Too low!"
+             doGuessing num
+     else if (read guess) > num
+            then do putStrLn "Too high!"
+                    doGuessing num
+            else putStrLn "You Win!"
+```
+
+
+
+### 재귀
+
+##### Factorial 함수
+
+```haskell
+factorial 0 = 1
+factorial n = n * factorial (n-1)
+```
+
+factorial 함수를 실행할때 parameter의 값이 0이면 1을 반환하고 0이아닌 다른 정수라면 
+
+factorial n = n * factorial (n - 1)을 실행함.
+
+위와 같은 하스켈의 문법을 패턴 매칭이라고함.
+
+##### Power 함수
+
+```haskell
+power :: (Int,Int) -> Int
+power(x,0) = 1
+power(x,y) = x * power(x,y-1)
+```
+
+
+
+##### Length 함수
+
+```haskell
+length2 :: [a] -> Int
+length2 [] = 0
+length2 (x:xs) = 1 + length xs
+```
+
+
+
+##### list_append 함수
+
+```haskell
+list_append :: [a] -> [a] -> [a]
+list_append [] ys = ys
+list_append (x:xs) ys = x : xs ++ ys 
+```
+
+
+
+##### takeInt 함수
+
+```haskell
+takeInt :: Int -> [Int] -> [Int]
+takeInt 0 (x:xs) = []
+takeInt m (x:xs) = x : (takeInt (m-1) (xs))
+```
+
+
+
+##### dropInt 함수
+
+```haskell
+dropInt :: Int -> [Int] -> [Int]
+dropInt 0 xs = xs
+dropInt m (x:xs) = dropInt (m-1) xs
+```
+
+
+
+### 일반화 하기
+
+```haskell
+multiplyList :: Integer -> [Integer] -> [Integer]
+multiplyList _ [] = []
+multiplyList m (n:ns) = (m*n) : multiplyList m ns
+```
+
+패턴매칭을 할때  don`t care에 대해서 사용할 수 있음. 
+
+어떤값이 와도 상관이 없을때  _ (Don`t care)을 사용해서 철저하게 무시해주는것이 좋음.
+
+
+
+### 리스트
+
+##### 
